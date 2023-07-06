@@ -85,7 +85,7 @@ function Calculadora() {
             this.doCalculation();
         }
         operation = operand;
-        previousOperand.textContent = `${currentOperand.textContent.replace('.', '')} ${operation}`;
+        previousOperand.textContent = `${currentOperand.textContent.replace(/\./g, '')} ${operation}`;
         currentOperand.textContent = '';
         currentNumber = '';
     }
@@ -93,7 +93,7 @@ function Calculadora() {
     this.doCalculation = () => {
         let calculation;
         const previous = parseFloat(previousOperand.textContent.replace(',', '.'));
-        const current = parseFloat(currentOperand.textContent.replace(',', '.'));
+        const current = parseFloat(currentOperand.textContent.replace(/\./g, '').replace(',', '.'));
 
         if (isNaN(previous) || isNaN(current)) return;
 
@@ -122,7 +122,7 @@ function Calculadora() {
 
     this.delete = () => {
         currentNumber = currentNumber.slice(0, -1);
-        currentOperand.textContent = currentNumber;
+        currentOperand.textContent = this.getNumberDisplay(currentNumber);
     }
 
     this.changeClassification = () => {
@@ -131,7 +131,7 @@ function Calculadora() {
         }else{
             currentNumber = currentNumber.slice(1, currentNumber.length);
         }
-        currentOperand.textContent = currentNumber;
+        currentOperand.textContent = this.getNumberDisplay(currentNumber);
     }
 }
 const calculadora = new Calculadora();
